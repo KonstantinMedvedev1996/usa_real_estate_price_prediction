@@ -6,6 +6,7 @@ import joblib
 # import sklearn
 
 st.header('USA Real Estate Price Prediction')
+st.write('My text is here')
 
 path_data = 'data/zip_mean_price.pickle'
 path_unique_values = 'data/unique_values.json'
@@ -51,7 +52,7 @@ with open(path_unique_values) as file:
 
 
 # #features
-status_type = st.sidebar.selectbox('Statusctype',(dict_unique['status']))
+status_type = st.sidebar.selectbox('Status type',(dict_unique['status']))
 object_type = st.sidebar.selectbox('Property type',(dict_unique['propertyType']))
 street_type = st.sidebar.selectbox('Street type',(dict_unique['street']))
 baths = st.sidebar.slider ("Bathrooms", min_value=min(dict_unique["baths"]), max_value=max(dict_unique["baths"]))
@@ -105,17 +106,17 @@ dict_data = {
 data_predict = pd.DataFrame([dict_data])
 model = load_model(path_model)
 
-button_1 = st.button("Hello")
-# button_2 = st.button("Predict_price")
-button_3 = st.button("Predict")
+# button_1 = st.button("Hello")
+# # button_2 = st.button("Predict_price")
+button_1 = st.button("Расчитать цену")
 
-if button_1:
-    st.write('Why hello there')
+# if button_1:
+#     st.write('Why hello there')
     
 # if button_2:
 #     model.predict(data_predict)
 
-if button_3:
+if button_1:
     output = model.predict(data_predict)
     st.success(f"{round(output[0])} rub")
     
@@ -127,7 +128,8 @@ st.markdown(
    """
     ### Описание полей
     
-        - date - date of publication of the announcement;
+        - Status type - статус продажи;
+        - Property type - тип объекта недвижимости;
         - time - the time when the ad was published;
         - geo_lat - Latitude
         - geo_lon - Longitude
@@ -140,6 +142,36 @@ st.markdown(
         - area - the total area of ​​the apartment
         - kitchen_area - Kitchen area
         - price - Price. in rubles
+        
+        * 'MlsId' - идентификационный номер в системе MLS
+* 'mls-id' - идентификационный номер в системе MLS
+* 'status' - статус продажи
+* 'propertyType' - 'тип' объекта недвижимости
+
+**Характеристики:**
+* 'fireplace' - наличие камина
+* 'baths' - количество ванных комнат
+* 'beds'- количество спальных комнат
+* 'private pool' - наличие бассейна
+* 'PrivatePool' - наличие бассейна
+* 'stories' - количество этажей
+
+**Числовые характеристки:**
+* 'sqft' - площадь в квадратных футах
+
+**Географическая информация:**
+* 'zipcode' - почтовый индекс
+* 'state' - штат
+* 'city' - город
+* 'street'- адрес
+
+**Прочие признаки (требующие особой предобработки обработки):**
+* 'homeFacts'- информация о строительстве объекта
+* 'schools' - сведения о школах в районе
+
+
+**Целевая переменная:** 
+* 'target' - цена объекта недвижимости (целевой признак)
 
    """ 
 
